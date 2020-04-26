@@ -4,7 +4,7 @@ from copy import copy
 import logging
 
 from simulert.logger import logger
-from simulert.handlers.logger import Logger as LoggerHandler
+from simulert.handlers.logs import Logger as LoggerHandler
 
 
 class Alerter:

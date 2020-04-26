@@ -1,5 +1,5 @@
 from simulert.alerter import getAlerter, Alerter
-from simulert.handlers.logger import Logger
+from simulert.handlers.logs import Logger
 
 
 MESSAGE = "ALERT! ALERT! ALERT!"
