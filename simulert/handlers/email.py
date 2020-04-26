@@ -66,7 +66,7 @@ class Emailer(BaseHandler):
     def alert(self, message):
         try:
             self.send_email("An update on your simulation", message)
-        except Error as e:
+        except Exception as err:
             logger.exception(
-                f"Email notification to {self.recipients} failed with", e
+                f"Email notification to {self.recipients} failed with", err.__repr__()
             )
