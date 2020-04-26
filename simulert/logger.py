@@ -1,5 +1,5 @@
 import logging
 
-logger  = logging.getLogger("simulerts")
+logger = logging.getLogger("simulerts")
 
 __all__ = ["logger"]

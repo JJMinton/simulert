@@ -8,7 +8,7 @@ class BaseHandler(ABC):
     """
 
     @abstractmethod
-    def alert(self, message:str):
+    def alert(self, message: str):
         """Send an alert.
         Arguments:
             message (str): The message the alert should contain.

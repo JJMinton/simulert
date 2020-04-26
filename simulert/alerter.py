@@ -1,10 +1,10 @@
+import logging
 from collections import defaultdict
 from contextlib import contextmanager
 from copy import copy
-import logging
 
-from simulert.logger import logger
 from simulert.handlers.logs import Logger as LoggerHandler
+from simulert.logger import logger
 
 
 class Alerter:
@@ -15,9 +15,7 @@ class Alerter:
 
     def __init__(self, name=""):
         self.name = name
-        self._default_handler = LoggerHandler(
-            logger.getChild(self.name), logging.INFO
-        )
+        self._default_handler = LoggerHandler(logger.getChild(self.name), logging.INFO)
         self._handlers = [self._default_handler]
 
     @property
@@ -63,6 +61,7 @@ class Alerter:
 
 
 _alerters = defaultdict(Alerter)
+
 
 def getAlerter(key: str = ""):
     _alerters[key] = _alerters.get(key, Alerter(key))

@@ -35,10 +35,10 @@ with alerter.simulation_alert("super dooper sim"):
     run_simulation()
 ```
 
-##TODO
+## TODO
 1. Complete docstrings
 1. Test email.py, logs.py and slack.py
-1. Add default environment args to emailer
+1. Add default handler args that read environment variables
 1. Write a better README.md
 1. Tidy up pyproject.toml to include only necessary files
 1. Setup Github

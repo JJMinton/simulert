@@ -5,11 +5,11 @@ import pytest
 from simulert.alerter import Alerter
 from simulert.handlers.base_handler import BaseHandler
 
-class MockHandler(BaseHandler):
 
+class MockHandler(BaseHandler):
     def __init__(self):
         self._messages = []
-    
+
     def alert(self, message):
         self._messages.append(message)
 
@@ -31,6 +31,7 @@ class MockHandler(BaseHandler):
 @pytest.fixture
 def mock_handler():
     return MockHandler()
+
 
 @pytest.fixture
 def alerter_with_mock_handler(mock_handler):

@@ -1,19 +1,18 @@
-from contextlib import contextmanager
-from datetime import datetime
-from email.mime.text import MIMEText
 import email
 import logging
 import smtplib
+from contextlib import contextmanager
+from datetime import datetime
+from email.mime.text import MIMEText
 from typing import Iterable, Union
 
 from simulert.handlers.base_handler import BaseHandler
 from simulert.logger import logger as simulert_logger
 
+logger = simulert_logger.getChild(__name__)
 
-logger = simulert_logger.getChild(__name__) 
 
 class Emailer(BaseHandler):
-
     def __init__(
         self,
         username: str,
@@ -57,7 +56,7 @@ class Emailer(BaseHandler):
         msg["From"] = email.utils.formataddr(self.sender)
         with self._server() as server:
             server.sendmail(self.sender, self.recipient, msg.as_string())
-    
+
     def send_test_email(self):
         message = self.send_email(
             "Test email", f"This test email was sent at {datetime.now()}"
