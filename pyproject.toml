@@ -1,11 +1,21 @@
 [tool.poetry]
 name = "simulert"
 version = "0.1.0"
-description = ""
-authors = ["Jeremy Minton <jeremy.minton@eigentech.com>"]
+description = "A package to provide useful functionality for sending alerts about running simulations."
+authors = ["Jeremy Minton <jeremyminton@gmail.com>"]
+license = "Apache 2.0"
+homepage = "https://github.com/jjminton/simulert"
+repository = "https://github.com/jjminton/simulert"
+keywords = ["simulation", "alert", "email"]
+classifiers = [
+    "Operating System :: OS Independent",
+]
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
