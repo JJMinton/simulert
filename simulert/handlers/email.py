@@ -1,5 +1,4 @@
 import email
-import logging
 import smtplib
 from contextlib import contextmanager
 from datetime import datetime
@@ -58,7 +57,7 @@ class Emailer(BaseHandler):
             server.sendmail(self.sender, self.recipient, msg.as_string())
 
     def send_test_email(self):
-        message = self.send_email(
+        self.send_email(
             "Test email", f"This test email was sent at {datetime.now()}"
         )
 

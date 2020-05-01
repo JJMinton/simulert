@@ -9,7 +9,7 @@ from simulert.logger import logger
 
 class Alerter:
     """
-    A class that provides a range of functionality for defining alert events and 
+    A class that provides a range of functionality for defining alert events and
     triggers a list of handlers when these events occur.
     """
 
