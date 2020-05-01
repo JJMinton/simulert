@@ -6,8 +6,8 @@ authors = ["Jeremy Minton <jeremyminton@gmail.com>"]
 license = "Apache 2.0"
 homepage = "https://github.com/jjminton/simulert"
 repository = "https://github.com/jjminton/simulert"
-keywords = ["simulation", "alert", "email"]
 readme = "README.md"
+keywords = ["simulation", "alert", "email"]
 classifiers = [
     "Operating System :: OS Independent",
 ]
@@ -17,7 +17,8 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-slackclient = "^2.5.0"
+poetry = "^1.0"
+slackclient = "^2.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
