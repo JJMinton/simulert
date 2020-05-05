@@ -1,0 +1,39 @@
+# This workflows will build and upload a Python Package using Poetry when a release is
+# created.
+
+name: Build and Publish Python Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      uses: abatilo/actions-poetry@v1.6.0
+      with:
+        python_version: ${{ matrix.python-version }}
+        poetry_version: 1.0.5
+        args: install
+
+    - name: PyPi Authenticate
+      uses: abatilo/actions-poetry@v1.6.0
+      with:
+        python_version: ${{ matrix.python-version }}
+        poetry_version: 1.0.5
+        args: config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+
+    - name: Build and Publish Package
+      uses: abatilo/actions-poetry@v1.6.0
+      with:
+        python_version: ${{ matrix.python-version }}
+        poetry_version: 1.0.5
+        args: publish --build

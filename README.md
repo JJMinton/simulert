@@ -41,9 +41,6 @@ with alerter.simulation_alert("super dooper sim"):
 1. Add default handler args that read environment variables
 1. Write a better README.md
 1. Tidy up pyproject.toml to include only necessary files
-1. Setup Github
-    1. Automated testing
-    1. Branch protection
 1. Deploy to Pypi via github with version management
 1. Add a changelog
 1. Add a logging handler as an event source.
