@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from slack import WebClient
 
@@ -9,9 +10,17 @@ logger = simulert_logger.getChild(__name__)
 
 
 class Slacker(BaseHandler):
-    def __init__(self, token, username):
-        self.client = WebClient(token)  # os.environ["SLACK_API_TOKEN"]
-        self.username = username
+
+    _attr_envvar_map = {
+        "token": "SIMULERT_SLACK_TOKEN",
+        "username": "SIMULERT_SLACK_USERNAME",
+    }
+
+    def __init__(self, token=None, username=None):
+        self.token = token or os.environ.get(self._attr_envvar_map["token"])
+        self.username = username or os.environ.get(self._attr_envvar_map["username"])
+        self.check_valid_args()
+        self.client = WebClient(token)
 
     def send_message(self, message):
         self.client.chat_postMessage(
@@ -23,7 +32,7 @@ class Slacker(BaseHandler):
             self.send_message(message)
         except Exception as err:
             logger.exception(
-                f"Email notification to {self.recipients} failed with", err.__repr__()
+                f"Slack notification to {self.username} failed with {err.__repr__()}"
             )
 
     def send_test_message(self):
