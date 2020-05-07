@@ -7,33 +7,10 @@ from unittest.mock import Mock, patch, create_autospec
 from simulert.handlers import Emailer
 
 
-class SMTPServerThread(Thread):
-    def __init__(self):
-        super().__init__()
-        self.host_port = None
-
-    def run(self):
-        self.smtp = DebuggingServer(("127.0.0.1", 0), None)
-        self.host_port = self.smtp.socket.getsockname()
-        asyncore.loop(timeout=0.1)
-
-    def close(self):
-        self.smtp.close()
-
-
-@pytest.fixture
-def dummy_server():
-    print("starting server thread")
-    server_thread = SMTPServerThread()
-    server_thread.start()
-    while server_thread.host_port is None:
-        time.sleep(0.1)
-    host, port = server_thread.host_port
-    yield {"host": host, "port": port}
-    server_thread.close()
-    server_thread.join(10)
-    if server_thread.is_alive():
-        raise RuntimeError("SMTP Debugging server didn't close in 10sec.")
+@pytest.fixture(autouse=True)
+def mock_send():
+    with patch("simulert.handlers.email.SMTP", set=True) as mock_server:
+        yield mock_server().sendmail
 
 
 def test_constructor_from_args():
@@ -75,68 +52,59 @@ def test_constructor_raises(args, monkeypatch):
         Emailer(**args)
 
 
-def test_send_message(monkeypatch):
-    with patch("simulert.handlers.email.SMTP.sendmail", set=True) as mock_send:
-        Emailer(
-            authentication=",",  # smtpd.DebuggingServer doesn't support authentication
-            sender=("see", "sail"),
-            recipient=("soo", "rail"),
-            host="localhost",
-            port=1025,
-        ).send_email("subject", "body")
-        mock_send.assert_called_once()
-        assert mock_send.call_args[0][0] == ("see", "sail")
-        assert mock_send.call_args[0][1] == ("soo", "rail")
-        assert mock_send.call_args[0][2].endswith("body")
-        assert "Subject: subject" in mock_send.call_args[0][2]
+def test_send_message(mock_send):
+    Emailer(
+        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        sender=("see", "sail"),
+        recipient=("soo", "rail"),
+        host="localhost",
+        port=1025,
+    ).send_email("subject", "body")
+    mock_send.assert_called_once()
+    assert mock_send.call_args[0][0] == ("see", "sail")
+    assert mock_send.call_args[0][1] == ("soo", "rail")
+    assert mock_send.call_args[0][2].endswith("body")
+    assert "Subject: subject" in mock_send.call_args[0][2]
 
 
-def test_alert(monkeypatch):
-    with patch("simulert.handlers.email.SMTP.sendmail", set=True) as mock_send:
-        Emailer(
-            authentication=",",  # smtpd.DebuggingServer doesn't support authentication
-            sender=("see", "sail"),
-            recipient=("soo", "rail"),
-            host="localhost",
-            port=1025,
-        ).alert("a message")
-        mock_send.assert_called_once()
-        assert mock_send.call_args[0][0] == ("see", "sail")
-        assert mock_send.call_args[0][1] == ("soo", "rail")
-        assert mock_send.call_args[0][2].endswith("a message")
-        assert "Subject: An update on your simulation" in mock_send.call_args[0][2]
+def test_alert(mock_send):
+    Emailer(
+        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        sender=("see", "sail"),
+        recipient=("soo", "rail"),
+        host="localhost",
+        port=1025,
+    ).alert("a message")
+    mock_send.assert_called_once()
+    assert mock_send.call_args[0][0] == ("see", "sail")
+    assert mock_send.call_args[0][1] == ("soo", "rail")
+    assert mock_send.call_args[0][2].endswith("a message")
+    assert "Subject: An update on your simulation" in mock_send.call_args[0][2]
 
 
-def test_alert_raises(caplog, monkeypatch):
-    with patch("simulert.handlers.email.SMTP.sendmail", set=True) as mock_send:
-        mock_send.side_effect = ValueError("valueerror")
-        Emailer(
-            authentication=",",  # smtpd.DebuggingServer doesn't support authentication
-            sender=("see", "sail"),
-            recipient=("soo", "rail"),
-            host="localhost",
-            port=1025,
-        ).alert("a message")
-        assert (
-            "Email notification to soo failed with ValueError('valueerror')"
-            in caplog.text
-        )
+def test_alert_raises(caplog, mock_send):
+    mock_send.side_effect = ValueError("valueerror")
+    Emailer(
+        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        sender=("see", "sail"),
+        recipient=("soo", "rail"),
+        host="localhost",
+        port=1025,
+    ).alert("a message")
+    assert (
+        "Email notification to soo failed with ValueError('valueerror')" in caplog.text
+    )
 
 
-def test_send_test_message(monkeypatch, dummy_server):
-    print("testing")
-    with patch("simulert.handlers.email.SMTP.sendmail", set=True) as mock_send:
-        print("mocked sendmail")
-        emailer = Emailer(
-            authentication=",",  # smtpd.DebuggingServer doesn't support authentication
-            sender=("see", "sail"),
-            recipient=("soo", "rail"),
-            host="localhost",
-            port=1025,
-        )
-        emailer.send_test_email()
-        print("alerted")
-        mock_send.assert_called_once()
-        assert mock_send.call_args[0][0] == ("see", "sail")
-        assert mock_send.call_args[0][1] == ("soo", "rail")
-        assert "Subject: Test email" in mock_send.call_args[0][2]
+def test_send_test_message(mock_send):
+    Emailer(
+        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        sender=("see", "sail"),
+        recipient=("soo", "rail"),
+        host="localhost",
+        port=1025,
+    ).send_test_email()
+    mock_send.assert_called_once()
+    assert mock_send.call_args[0][0] == ("see", "sail")
+    assert mock_send.call_args[0][1] == ("soo", "rail")
+    assert "Subject: Test email" in mock_send.call_args[0][2]
