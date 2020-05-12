@@ -7,6 +7,10 @@ from simulert.handlers.base_handler import BaseHandler
 
 
 class MockHandler(BaseHandler):
+    """
+    A mock alert handler that capture messages and provides a convenience context for
+    registering it with an alerter.
+    """
     def __init__(self):
         self._messages = []
 
@@ -30,9 +34,15 @@ class MockHandler(BaseHandler):
 
 @pytest.fixture
 def mock_handler():
+    """
+    An instance of a mock alert handler.
+    """
     return MockHandler()
 
 
 @pytest.fixture
 def alerter_with_mock_handler(mock_handler):
+    """
+    An alerter with the default handler replaced with a mock handler.
+    """
     return Alerter("mock").remove_default_handler().add_handler(mock_handler)

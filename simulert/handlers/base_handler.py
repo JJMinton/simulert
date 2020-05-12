@@ -17,6 +17,13 @@ class BaseHandler(ABC):
         """
 
     def check_valid_args(self):
+        """Utilitly method that checks whether each argument defined in
+        `_attr_envvar_map` was defined and raises if any weren't.
+
+        Raises:
+            (ValueError): an error reporting which missing arguments were not defined.
+        """
+
         missing_args = {
             attr_name
             for attr_name in self._attr_envvar_map

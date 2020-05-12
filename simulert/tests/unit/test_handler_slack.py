@@ -6,6 +6,7 @@ from simulert.handlers import Slacker
 
 
 def test_constructor_from_args():
+    """Test that the slack handler instantiates correctly from arguments."""
     handler = Slacker("grok", "fee")
     assert handler.token == "grok"
     assert handler.username == "fee"
@@ -13,6 +14,7 @@ def test_constructor_from_args():
 
 
 def test_constructor_from_environ(monkeypatch):
+    """Test that the slack handler instantiates correctly from environment variables."""
     monkeypatch.setenv("SIMULERT_SLACK_TOKEN", "foo")
     monkeypatch.setenv("SIMULERT_SLACK_USERNAME", "bar")
     handler = Slacker()
@@ -23,6 +25,8 @@ def test_constructor_from_environ(monkeypatch):
 
 @pytest.mark.parametrize("args", [{}, {"token": "bar"}, {"username": "foo"},])
 def test_constructor_raises(args, monkeypatch):
+    """Test that the slack handler raises with insufficient arguments and undefined
+    environment variables."""
     monkeypatch.delenv("SIMULERT_SLACK_TOKEN", raising=False)
     monkeypatch.delenv("SIMULERT_SLACK_USERNAME", raising=False)
     with pytest.raises(ValueError):
@@ -30,6 +34,9 @@ def test_constructor_raises(args, monkeypatch):
 
 
 def test_send_message(monkeypatch):
+    """
+    Test that `send_message` correctly calls `chat_postMessage` of the slack webclient.
+    """
     with patch(
         "simulert.handlers.slack.WebClient.chat_postMessage", set=True
     ) as mock_post:
@@ -38,6 +45,9 @@ def test_send_message(monkeypatch):
 
 
 def test_alert(monkeypatch):
+    """
+    Test that `alert` correctly calls `chat_postMessage` of the slack webclient.
+    """
     with patch(
         "simulert.handlers.slack.WebClient.chat_postMessage", set=True
     ) as mock_post:
@@ -46,6 +56,10 @@ def test_alert(monkeypatch):
 
 
 def test_alert_raises(monkeypatch, caplog):
+    """
+    Test that `alert` logs failed attempts to call `chat_postMessage` of the slack
+    webclient.
+    """
     with patch(
         "simulert.handlers.slack.WebClient.chat_postMessage", set=True
     ) as mock_post:
@@ -58,6 +72,10 @@ def test_alert_raises(monkeypatch, caplog):
 
 
 def test_send_test_message(monkeypatch):
+    """
+    Test that `send_test_message` correctly calls `chat_postMessage` of the slack
+    webclient.
+    """
     with patch(
         "simulert.handlers.slack.WebClient.chat_postMessage", set=True
     ) as mock_post:

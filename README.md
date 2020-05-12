@@ -36,11 +36,9 @@ with alerter.simulation_alert("super dooper sim"):
 ```
 
 ## TODO
-1. Complete docstrings
-1. Test email.py, logs.py and slack.py
-1. Add default handler args that read environment variables
 1. Write a better README.md
+1. Test Github deployment to Pypi workflow
+1. Test logs.py
 1. Tidy up pyproject.toml to include only necessary files
-1. Deploy to Pypi via github with version management
 1. Add a changelog
 1. Add a logging handler as an event source.
