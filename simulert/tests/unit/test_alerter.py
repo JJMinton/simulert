@@ -6,8 +6,8 @@ from simulert.handlers.logs import Logger
 MESSAGE = "ALERT! ALERT! ALERT!"
 
 
-@pytest.mark.parametrize("name", (None, "foo", "", 4))
-def test_get_alerter_is_singleton():
+@pytest.mark.parametrize("name", ("", "foo"))
+def test_get_alerter_is_singleton(name):
     """Test that getAlerter will always return the same alerter by the same name."""
     assert getAlerter(name) is getAlerter(name)
     assert getAlerter(name) is not getAlerter("bar")

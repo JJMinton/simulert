@@ -1,6 +1,6 @@
 import pytest
 from slack import WebClient
-from unittest.mock import Mock, patch, create_autospec
+from unittest.mock import patch
 
 from simulert.handlers import Slacker
 
@@ -23,7 +23,7 @@ def test_constructor_from_environ(monkeypatch):
     assert isinstance(handler.client, WebClient)
 
 
-@pytest.mark.parametrize("args", [{}, {"token": "bar"}, {"username": "foo"},])
+@pytest.mark.parametrize("args", [{}, {"token": "bar"}, {"username": "foo"}, ])
 def test_constructor_raises(args, monkeypatch):
     """Test that the slack handler raises with insufficient arguments and undefined
     environment variables."""

@@ -14,7 +14,7 @@ class Alerter:
     triggers a list of handlers when these events occur.
     """
 
-    def __init__(self, name=""):
+    def __init__(self, name: Optional[str] = ""):
         self.name = name
         self._default_handler = LoggerHandler(logger.getChild(self.name), logging.INFO)
         self._handlers = [self._default_handler]

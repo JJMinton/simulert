@@ -4,6 +4,7 @@ from smtplib import SMTP, SMTP_SSL
 from contextlib import contextmanager
 from datetime import datetime
 from email.mime.text import MIMEText
+from ssl import SSLError
 from typing import Iterable, Union, Tuple, Optional
 
 from simulert.handlers.base_handler import BaseHandler
@@ -73,7 +74,7 @@ class Emailer(BaseHandler):
         """A convenience context that connects to an SMTP server."""
         try:
             server = SMTP_SSL(self.host, self.port)
-        except:  # TODO: make this exception more specific
+        except (SSLError, ConnectionRefusedError):
             logger.warning("Using a non TSL server connection.")
             server = SMTP(self.host, self.port)
         try:
@@ -110,7 +111,8 @@ class Emailer(BaseHandler):
             self.send_email("An update on your simulation", message)
         except Exception as err:
             logger.exception(
-                f"Email notification to {self.recipient[0]} failed with {err.__repr__()}"
+                f"Email notification to {self.recipient[0]} failed with"
+                f" {err.__repr__()}"
             )
 
     def send_test_email(self):

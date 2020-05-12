@@ -1,8 +1,5 @@
 import pytest
-from smtpd import DebuggingServer
-import time
-from threading import Thread
-from unittest.mock import Mock, patch, create_autospec
+from unittest.mock import patch
 
 from simulert.handlers import Emailer
 
@@ -47,7 +44,7 @@ def test_constructor_from_environ(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "args", [{}, {"authentication": ("user", "key")}, {"sender": ("foo", "foo@email")},]
+    "args", [{}, {"authentication": ("user", "key")}, {"sender": ("foo", "foo@email")}]
 )
 def test_constructor_raises(args, monkeypatch):
     """
