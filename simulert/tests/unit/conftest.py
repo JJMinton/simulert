@@ -11,6 +11,7 @@ class MockHandler(BaseHandler):
     A mock alert handler that capture messages and provides a convenience context for
     registering it with an alerter.
     """
+
     def __init__(self):
         self._messages = []
 

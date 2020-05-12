@@ -12,6 +12,7 @@ def test_get_alerter_is_singleton():
     assert getAlerter(name) is getAlerter(name)
     assert getAlerter(name) is not getAlerter("bar")
 
+
 def test_get_default_alerter():
     """
     Test that the default alerter is returned with the default handler.

@@ -11,10 +11,11 @@ class Logger(BaseHandler):
     """
     An alert handler that will log alerts.
     """
+
     def __init__(
         self,
         user_logger: Optional[logging.Logger] = None,
-        level: Optional[int]=logging.INFO
+        level: Optional[int] = logging.INFO,
     ):
         """
         Arguments:
