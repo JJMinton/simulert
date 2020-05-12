@@ -4,12 +4,18 @@ from unittest.mock import patch
 from simulert.handlers import Emailer
 
 
-@pytest.fixture(autouse=True)
-def mock_send():
+@pytest.fixture(autouse=True, params=[True, False])
+def mock_send(request):
     """The `sendmail` method for a mocked SMTP server class that is patched over the
     server class used in `simulert.handlers.email`."""
-    with patch("simulert.handlers.email.SMTP", set=True) as mock_server:
-        yield mock_server().sendmail
+    ssl = request.param
+    with patch("simulert.handlers.email.SMTP_SSL", set=True) as mock_ssl_server:
+        if ssl:
+            yield mock_ssl_server().sendmail
+        else:
+            mock_ssl_server.side_effect = ConnectionRefusedError()
+            with patch("simulert.handlers.email.SMTP", set=True) as mock_server:
+                yield mock_server().sendmail
 
 
 def test_constructor_from_args():
@@ -33,13 +39,13 @@ def test_constructor_from_environ(monkeypatch):
     monkeypatch.setenv("SIMULERT_EMAIL_AUTHENTICATION", "user, key")
     monkeypatch.setenv("SIMULERT_EMAIL_SENDER", "see,sail")
     monkeypatch.setenv("SIMULERT_EMAIL_RECIPIENT", "soo,rail")
-    monkeypatch.setenv("SIMULERT_EMAIL_HOST", "mostus")
+    monkeypatch.setenv("SIMULERT_EMAIL_HOST", "proculus")
     monkeypatch.setenv("SIMULERT_EMAIL_PORT", "42")
     handler = Emailer()
     assert handler.authentication == ("user", "key")
     assert handler.sender == ("see", "sail")
     assert handler.recipient == ("soo", "rail")
-    assert handler.host == "mostus"
+    assert handler.host == "proculus"
     assert handler.port == 42
 
 
@@ -62,10 +68,10 @@ def test_send_message(mock_send):
     Test that `send_email` correctly calls `sendmail` from the email server.
     """
     Emailer(
-        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        authentication="user,key",
         sender=("see", "sail"),
         recipient=("soo", "rail"),
-        host="localhost",
+        host="lucius",
         port=1025,
     ).send_email("subject", "body")
     mock_send.assert_called_once()
@@ -80,10 +86,10 @@ def test_alert(mock_send):
     Test that `alert` correctly calls `sendmail` from the mail server.
     """
     Emailer(
-        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        authentication="user,key",
         sender=("see", "sail"),
         recipient=("soo", "rail"),
-        host="localhost",
+        host="vibius",
         port=1025,
     ).alert("a message")
     mock_send.assert_called_once()
@@ -99,10 +105,10 @@ def test_alert_raises(caplog, mock_send):
     """
     mock_send.side_effect = ValueError("valueerror")
     Emailer(
-        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        authentication="user,key",
         sender=("see", "sail"),
         recipient=("soo", "rail"),
-        host="localhost",
+        host="faustus",
         port=1025,
     ).alert("a message")
     assert (
@@ -115,10 +121,10 @@ def test_send_test_message(mock_send):
     Test that `send_test_email` correctly calls `sendmail` from the email server.
     """
     Emailer(
-        authentication=",",  # smtpd.DebuggingServer doesn't support authentication
+        authentication=",",
         sender=("see", "sail"),
         recipient=("soo", "rail"),
-        host="localhost",
+        host="manius",
         port=1025,
     ).send_test_email()
     mock_send.assert_called_once()
