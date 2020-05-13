@@ -66,7 +66,7 @@ def test_alert_raises(monkeypatch, caplog):
         mock_post.side_effect = ValueError("valueerror")
         Slacker("grok", "fee").alert("a message")
         assert (
-            "Slack notification to fee failed with ValueError('valueerror')"
+            "Slack notification to fee failed with ValueError('valueerror'"
             in caplog.text
         )
 

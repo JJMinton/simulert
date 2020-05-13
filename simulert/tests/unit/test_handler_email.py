@@ -112,7 +112,7 @@ def test_alert_raises(caplog, mock_send):
         port=1025,
     ).alert("a message")
     assert (
-        "Email notification to soo failed with ValueError('valueerror')" in caplog.text
+        "Email notification to soo failed with ValueError('valueerror'" in caplog.text
     )
 
 
