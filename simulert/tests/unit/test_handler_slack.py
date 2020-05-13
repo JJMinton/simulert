@@ -10,6 +10,7 @@ def test_constructor_from_args():
     handler = Slacker("grok", "fee")
     assert handler.token == "grok"
     assert handler.username == "fee"
+    assert handler.client.token == handler.token
     assert isinstance(handler.client, WebClient)
 
 
@@ -20,6 +21,7 @@ def test_constructor_from_environ(monkeypatch):
     handler = Slacker()
     assert handler.token == "foo"
     assert handler.username == "bar"
+    assert handler.client.token == handler.token
     assert isinstance(handler.client, WebClient)
 
 
