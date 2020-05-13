@@ -32,7 +32,7 @@ class Slacker(BaseHandler):
         self.token = token or os.environ.get(self._attr_envvar_map["token"])
         self.username = username or os.environ.get(self._attr_envvar_map["username"])
         self.check_valid_args()
-        self.client = WebClient(token)
+        self.client = WebClient(self.token)
 
     def send_message(self, message: str):
         """
