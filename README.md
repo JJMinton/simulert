@@ -73,6 +73,53 @@ with alerter.simulation_alert("super dooper sim"):
 which will send "BigSims: super dooper sim has completed without error." via slack once
 `run_simulation()` has completed.
 
+## CLI Usage
+
+    Usage: simulert [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+      -e, --email                     attach email handler
+      -s, --slack                     attach slack handler
+      --simulertSlackToken TEXT       the token for the slack-bot used to send
+                                      messages from.
+
+      --simulertSlackUsername TEXT    the username of the slack user to send
+                                      messages to.
+
+      --simulertEmailHost TEXT        the host address of the email server to send
+                                      from.
+
+      --simulertEmailPort TEXT        the connection port of the email server to
+                                      send from.
+
+      --simulertEmailAuthentication TEXT
+                                      comma-separated username and password to
+                                      authenticate to the email server.
+
+      --simulertEmailSender TEXT      comma-separated sender name and email
+                                      address
+
+      --simulertEmailRecipient TEXT   comma-separated receiver name and email
+                                      address
+
+      --help                          Show this message and exit.
+
+    Commands:
+      run
+      
+`run` command
+      
+    Usage: simulert run [OPTIONS] METHOD
+
+    Options:
+      -n, --name TEXT  simulation name
+      --help           Show this message and exit.
+      
+### Example
+Run the simulation `hello_world.py` with a slack handler using the set environment variables. 
+
+    simulert -s run ~/hello_world.py --name my_simulation
+
 ## TODO
 1. Test logs.py
 1. Tidy up pyproject.toml to include only necessary files
