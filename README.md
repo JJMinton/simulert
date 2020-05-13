@@ -29,17 +29,17 @@ The handlers will take default arguments from environment variables so that this
 can be configured globally for the fewest lines to alerts.
 
 ##### Email hander:
-`SIMULERT_EMAIL_HOST`: the host address of the email server to send from.
-`SIMULERT_EMAIL_PORT`: the connection port of the email server to send from.
-`SIMULERT_EMAIL_AUTHENTICATION`: comma-separated username and password to authenticate
+* `SIMULERT_EMAIL_HOST`: the host address of the email server to send from.
+* `SIMULERT_EMAIL_PORT`: the connection port of the email server to send from.
+* `SIMULERT_EMAIL_AUTHENTICATION`: comma-separated username and password to authenticate
     to the email server.
-`SIMULERT_EMAIL_SENDER`: comma-separated sender name and email address
-`SIMULERT_EMAIL_RECIPIENT`: comma-separated receiver name and email address
+* `SIMULERT_EMAIL_SENDER`: comma-separated sender name and email address
+* `SIMULERT_EMAIL_RECIPIENT`: comma-separated receiver name and email address
 
 
 ##### Slack handler:
-`SIMULERT_SLACK_TOKEN`: the token for the slack-bot used to send messages from.
-`SIMULERT_SLACK_USERNAME`: the username of the slack user to send messages to.
+* `SIMULERT_SLACK_TOKEN`: the token for the slack-bot used to send messages from.
+* `SIMULERT_SLACK_USERNAME`: the username of the slack user to send messages to.
 
 
 ## Example
