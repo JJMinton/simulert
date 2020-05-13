@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 from contextlib import contextmanager
 from copy import copy
+from typing import Optional
 
 from simulert.handlers.logs import Logger as LoggerHandler
 from simulert.logger import logger
@@ -13,7 +14,7 @@ class Alerter:
     triggers a list of handlers when these events occur.
     """
 
-    def __init__(self, name=""):
+    def __init__(self, name: Optional[str] = ""):
         self.name = name
         self._default_handler = LoggerHandler(logger.getChild(self.name), logging.INFO)
         self._handlers = [self._default_handler]
@@ -39,14 +40,14 @@ class Alerter:
             handler.alert(msg)
 
     @contextmanager
-    def simulation_alert(self, simulation_name="simulation"):
+    def simulation_alert(self, simulation_name: Optional[str] = "simulation"):
         """
         This context is designed to wrap a running simulation so that if the simulation
         completes, with or without an error, an alert is triggered.
 
         Arguments:
-            alerter (simulert.Alerter):
-            name (str): the name of the simulation for reference in the alerts.
+            simulation_name (Optional[str]): the name of the simulation for reference in
+                the alerts.
         """
         prefix = "" if not self.name else f"{self.name}: "
         try:
@@ -64,5 +65,11 @@ _alerters = defaultdict(Alerter)
 
 
 def getAlerter(key: str = ""):
+    """
+    A singleton to return alerters, akin to logging.getLogger.
+
+    Arguments:
+        key (str): the name of the alerter to be returned.
+    """
     _alerters[key] = _alerters.get(key, Alerter(key))
     return _alerters[key]
