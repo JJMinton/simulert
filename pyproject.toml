@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simulert"
-version = "0.1.0"
+version = "0.2.0"
 description = "A package to provide useful functionality for sending alerts about running simulations."
 authors = ["Jeremy Minton <jeremyminton@gmail.com>"]
 license = "Apache 2.0"
