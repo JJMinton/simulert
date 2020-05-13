@@ -1,4 +1,6 @@
 # Simulert
+![Run Pytest and Lint](https://github.com/JJMinton/simulert/workflows/Run%20Pytest%20and%20Lint/badge.svg)
+
 How often do your simulations fail moments after you close the terminal and head home
 for the evening? Do you repeatedly check on your simulations to see how they're doing?
 Have you ever left a long simulations for days longer than it needed?
