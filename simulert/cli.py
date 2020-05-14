@@ -9,9 +9,7 @@ from simulert.handlers import Emailer, Slacker
 alerter = getAlerter()
 
 
-@click.command()
-@click.argument("filename", required=True)
-@click.option("-n", "--name", help="simulation name")
+@click.group()
 @click.option("-e", "--email", help="attach email handler", is_flag=True)
 @click.option("-s", "--slack", help="attach slack handler", is_flag=True)
 @click.option(
@@ -33,8 +31,6 @@ alerter = getAlerter()
     "--emailRecipient", help="comma-separated receiver name and email address"
 )
 def cli(
-    filename,
-    name,
     email,
     slack,
     slacktoken,
@@ -59,5 +55,9 @@ def cli(
         )
         alerter.add_handler(emailer)
 
+@cli.command()
+@click.option("-n", "--name", help="simulation name")
+@click.argument("filename", required=True)
+def run(name, filename):
     with alerter.simulation_alert(name):
-        runpy.run_path(Path.cwd() / filename)
+        runpy.run_path(str(Path.cwd() / filename))

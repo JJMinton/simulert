@@ -74,52 +74,17 @@ which will send "BigSims: super dooper sim has completed without error." via sla
 `run_simulation()` has completed.
 
 ## CLI Usage
+Simulert can also be used from the command line with the `simulert` command
+that is automatically added on `pip install simulert`. To use, specify the
+options followed by `run` and then the python file you would like to run.
 
-    Usage: simulert [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-      -e, --email                     attach email handler
-      -s, --slack                     attach slack handler
-      --simulertSlackToken TEXT       the token for the slack-bot used to send
-                                      messages from.
-
-      --simulertSlackUsername TEXT    the username of the slack user to send
-                                      messages to.
-
-      --simulertEmailHost TEXT        the host address of the email server to send
-                                      from.
-
-      --simulertEmailPort TEXT        the connection port of the email server to
-                                      send from.
-
-      --simulertEmailAuthentication TEXT
-                                      comma-separated username and password to
-                                      authenticate to the email server.
-
-      --simulertEmailSender TEXT      comma-separated sender name and email
-                                      address
-
-      --simulertEmailRecipient TEXT   comma-separated receiver name and email
-                                      address
-
-      --help                          Show this message and exit.
-
-    Commands:
-      run
-      
-`run` command
-      
-    Usage: simulert run [OPTIONS] METHOD
-
-    Options:
-      -n, --name TEXT  simulation name
-      --help           Show this message and exit.
-      
-### Example
-Run the simulation `hello_world.py` with a slack handler using the set environment variables. 
+For example, to run the simulation `hello_world.py` with a slack handler
+using the set environment variables. 
 
     simulert -s run ~/hello_world.py --name my_simulation
 
+See `simulert --help` for a comprehensive usage guide. 
+      
 ## TODO
 1. Test logs.py
 1. Tidy up pyproject.toml to include only necessary files
