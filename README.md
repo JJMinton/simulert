@@ -89,4 +89,5 @@ See `simulert --help` for a comprehensive usage guide.
 1. Test logs.py
 1. Tidy up pyproject.toml to include only necessary files
 1. Add a changelog
+1. Setup release action to automatically increment release version?
 1. Add a logging handler as an event source.
