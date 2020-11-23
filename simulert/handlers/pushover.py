@@ -33,13 +33,12 @@ class Pushover(BaseHandler):
         self.username = username or os.environ.get(self._attr_envvar_map["username"])
         self.check_valid_args()
 
-    @staticmethod
-    def _post_to_api(message: str) -> HTTPResponse:
+    def _post_to_api(self, message: str) -> HTTPResponse:
         conn = HTTPSConnection("api.pushover.net:443")
         conn.request("POST", "/1/messages.json",
                      urlencode({
-                         "token": "ak63i8w4i5qkjk2fwn473smrpbiqjn",
-                         "user": "u3345qodyyuhaax3sg841o8drn1yzo",
+                         "token": self.token,
+                         "user": self.username,
                          "message": message,
                      }), {"Content-type": "application/x-www-form-urlencoded"})
         return conn.getresponse()
