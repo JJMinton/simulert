@@ -33,7 +33,7 @@ def test_constructor_raises(args, monkeypatch):
 
 def test_send_message(monkeypatch):
     """
-    Test that `send_message` correctly calls `chat_postMessage` of the pushover webclient.
+    Test that `send_message` correctly calls `_post_to_api`.
     """
     with patch(
         "simulert.handlers.pushover.Pushover._post_to_api", set=True
@@ -44,7 +44,7 @@ def test_send_message(monkeypatch):
 
 def test_alert(monkeypatch):
     """
-    Test that `alert` correctly calls `chat_postMessage` of the pushover webclient.
+    Test that `alert` correctly calls `_post_to_api`.
     """
     with patch(
         "simulert.handlers.pushover.Pushover._post_to_api", set=True
@@ -55,8 +55,7 @@ def test_alert(monkeypatch):
 
 def test_alert_raises(monkeypatch, caplog):
     """
-    Test that `alert` logs failed attempts to call `chat_postMessage` of the pushover
-    webclient.
+    Test that `alert` logs failed attempts to call `_post_to_api`.
     """
     with patch(
         "simulert.handlers.pushover.Pushover._post_to_api", set=True
@@ -71,8 +70,7 @@ def test_alert_raises(monkeypatch, caplog):
 
 def test_send_test_message(monkeypatch):
     """
-    Test that `send_test_message` correctly calls `chat_postMessage` of the pushover
-    webclient.
+    Test that `send_test_message` correctly calls `_post_to_api`.
     """
     with patch(
         "simulert.handlers.pushover.Pushover._post_to_api", set=True
