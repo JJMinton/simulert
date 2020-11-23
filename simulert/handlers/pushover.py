@@ -49,7 +49,7 @@ class Pushover(BaseHandler):
         Arguments:
             message (str): the text of the message to be sent.
         """
-        self._post_to_api(message)
+        self._post_to_api(message=message)
 
     def alert(self, message: str) -> None:
         """
