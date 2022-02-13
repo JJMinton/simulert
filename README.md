@@ -14,11 +14,10 @@ development package with either `pip install -e /path/to/simulert` or
 `conda develop /path/to/simulert`.
 
 ## Usage
-This package is architected similarly to Python's built-in logging package.
-An `Alerter` class is instantiated with `getAlerter()` and is triggered to send
-alerts to all the handlers registered with it.
+This package is architected similarly to Python's built-in logging package. An `Alerter` class is instantiated
+with `getAlerter()` and is triggered to send alerts to all the handlers registered with it.
 
-Current handlers include a logger (default), an emailer and a slack client.
+Current handlers include a logger (default), an emailer, a slack client and a pushover client.
 
 The `Alerter` currently provides two ways to trigger alerts: most simply, calling the
 `alert` method with a message; and possibly more conveniently, with the
@@ -31,25 +30,33 @@ can be configured globally for the fewest lines to alerts.
 ##### Email hander:
 * `SIMULERT_EMAIL_HOST`: the host address of the email server to send from.
 * `SIMULERT_EMAIL_PORT`: the connection port of the email server to send from.
-* `SIMULERT_EMAIL_AUTHENTICATION`: comma-separated username and password to authenticate
-    to the email server.
+* `SIMULERT_EMAIL_AUTHENTICATION`: comma-separated username and password to authenticate to the email server.
 * `SIMULERT_EMAIL_SENDER`: comma-separated sender name and email address
 * `SIMULERT_EMAIL_RECIPIENT`: comma-separated receiver name and email address
 
-
 ##### Slack handler:
+
 * `SIMULERT_SLACK_TOKEN`: the token for the slack-bot used to send messages from.
 * `SIMULERT_SLACK_USERNAME`: the username of the slack user to send messages to.
 
+##### Pushover handler:
+
+Pushover ([pushover.net](pushover.net)) allows triggering push notifications to Android and iPhone/iPad mobile client
+apps via a simple REST API.
+
+* `SIMULERT_PUSHOVER_TOKEN`: the token for the pushover integration used for sending messages.
+* `SIMULERT_PUSHOVER_USERNAME`: the username of the pushover account used for sending messages.
 
 ## Example
+
 The verbose and transparent example:
+
 ```python
 from simulert import getAlerter
 from simulert.handlers import Emailer, Slacker
 
 emailer = Emailer(
-    "username",
+	"username",
     "password",
     ("Simulations", "noreply_simulations@company.com"),
     ("Data scientist", "scientist@company.com"),
